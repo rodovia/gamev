@@ -1,4 +1,6 @@
 /build
 gamev-api/build
 gamev-plugin/build
+gamev-api/bin
+gamev-plugin/bin
 .gradle/
