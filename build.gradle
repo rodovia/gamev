@@ -1,0 +1,24 @@
+apply plugin: "java"
+
+subprojects.each { subproject -> evaluationDependsOn(subproject.path) }
+
+task allJar(type: Jar, dependsOn: subprojects.jar) {
+    baseName = 'gamev'
+    subprojects.each { subproject ->
+        from subproject.configurations.archives.allArtifacts.files.collect {
+            zipTree(it)
+        }
+    }
+}
+
+project.ext.version = '0.1.0-rc1'
+
+subprojects {
+	apply plugin: 'java'
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+
+	
+	project.ext.minecraftVersion = '1.12.2'
+	
+}

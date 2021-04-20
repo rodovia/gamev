@@ -1,0 +1,3 @@
+rootProject.name = 'gamev'
+include 'gamev-api'
+include 'gamev-plugin'

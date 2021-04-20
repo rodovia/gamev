@@ -1,0 +1,4 @@
+/build
+gamev-api/build
+gamev-plugin/build
+.gradle/
