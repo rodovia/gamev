@@ -1,5 +1,6 @@
 package rodovia.gamev.plugin.commands;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
@@ -64,15 +65,19 @@ public class GameraEventCommand implements CommandExecutor {
 			return true;
 		}
 		Optional<MinigameEvent> evnt = plugin.getEvent(args[1]);
-		if (evnt.isEmpty()) {
+		MinigameEvent event;
+		
+		try {
+			event = evnt.get();
+		}
+		catch (NoSuchElementException err) {
 			player.sendMessage(ChatColor.RED + "O evento '" + args[1] + "' não existe.");
 			return true;
 		}
 		
-		evnt.ifPresent((event) -> {
-			plugin.removeEvent(event.getName());
-		});
+		plugin.removeEvent(event.getName());
 		player.sendMessage(ChatColor.GREEN + "Evento '" + args[1] + "' Removido");
+		
 		return true;
 	}
 	
