@@ -1,7 +1,10 @@
 package rodovia.gamev.api;
 
 import java.util.Optional;
+
 import org.bukkit.Server;
+
+import rodovia.gamev.api.setting.OptionManager;
 import rodovia.gamev.api.util.Vector3f;
 
 /**
@@ -12,11 +15,30 @@ import rodovia.gamev.api.util.Vector3f;
 public interface MinigameEvent {
 	
 	/**
+	 * <p>Recebe o gerenciador de opções.</p>
+	 * A implementação padrão joga um {@link java.lang.UnsupportedOperationException}.
+	 * @throws UnsupportedOperationException a classe atual não suporta configurações. 
+	 */
+	default OptionManager getOptionManager() {
+		throw new UnsupportedOperationException("Current event doesn't support options.");
+	}
+	
+	/**
 	 * Inicia um evento. Normalmente essa função não deve ser chamada mais de uma vez.
 	 */
 	void start();
 	
+	/**
+	 * Define o nome do evento, útil para reconhecer ele.
+	 * @param name o nome do evento
+	 * @see MinigameEvent#getName()
+	 */
 	void withName(String name);
+	
+	/**
+	 * Recebe o nome o evento, pode ser <code>null</code>
+	 * @return o nome do evento
+	 */
 	String getName();
 	
 	/**

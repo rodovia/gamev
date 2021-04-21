@@ -11,7 +11,9 @@ import org.bukkit.entity.Player;
 
 import rodovia.gamev.api.Event;
 import rodovia.gamev.api.MinigameEvent;
+import rodovia.gamev.api.setting.OptionManager;
 import rodovia.gamev.plugin.GamevPlugin;
+import rodovia.gamev.plugin.util.StringUtils;
 
 public class GameraEventCommand implements CommandExecutor {
 
@@ -65,13 +67,9 @@ public class GameraEventCommand implements CommandExecutor {
 			return true;
 		}
 		Optional<MinigameEvent> evnt = plugin.getEvent(args[1]);
-		MinigameEvent event;
-		
-		try {
-			event = evnt.get();
-		}
-		catch (NoSuchElementException err) {
-			player.sendMessage(ChatColor.RED + "O evento '" + args[1] + "' não existe.");
+		MinigameEvent event = attemptToFetchEvent(evnt);
+		if (event == null) {
+			player.sendMessage(ChatColor.RED + "Nada mudou, O evento '" + args[1] + "' não existe.");
 			return true;
 		}
 		
@@ -82,7 +80,35 @@ public class GameraEventCommand implements CommandExecutor {
 	}
 	
 	private boolean setEventOption(Player player, String[] args) {
+		Optional<MinigameEvent> event = plugin.getEvent(args[1]);
+		MinigameEvent minigame = attemptToFetchEvent(event);
+		if (minigame == null) {
+			player.sendMessage(ChatColor.RED + "Nada mudou, O evento '" + args[1] + "' não existe.");
+			return true;
+		}
+		
+		OptionManager manager = minigame.getOptionManager();
+		Object value = args[3];
+		if (StringUtils.isDigit(args[3]))
+			value = Integer.valueOf(args[3]);
+		
+		manager.put(args[2], value);
+		String formatted = String.format("A configuração '%s' do evento %s agora tem o valor %s",
+					args[2], args[1], args[3]);
+		player.sendMessage(ChatColor.GREEN + formatted);
 		return true;
+	}
+	
+	private MinigameEvent attemptToFetchEvent(Optional<MinigameEvent> ev)  {
+		MinigameEvent event;
+		try {
+			event = ev.get();
+			return event;
+		}
+		catch (NoSuchElementException err) {
+			return null;
+		}
+		
 	}
 
 }

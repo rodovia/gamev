@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 
+import rodovia.gamev.api.setting.OptionManager;
 import rodovia.gamev.api.util.Vector3f;
 
 public class Event implements MinigameEvent {
@@ -13,9 +14,11 @@ public class Event implements MinigameEvent {
 	private Plugin plugin;
 	private Vector3f startCoordinates, endCoordinates;
 	private String name;
+	private OptionManager optManager;
 
 	public Event(Plugin plg) {
 		plugin = plg;
+		optManager = OptionManager.empty();
 	}
 	
 	@Override
@@ -49,6 +52,11 @@ public class Event implements MinigameEvent {
 		return started;
 	}
 
+	@Override
+	public OptionManager getOptionManager() {
+		return optManager;
+	}
+	
 	@Override
 	public void setStartCoordinates(Vector3f coords) {
 		this.startCoordinates = coords;

@@ -4,3 +4,7 @@ gamev-plugin/build
 gamev-api/bin
 gamev-plugin/bin
 .gradle/
+*.launch
+.project
+**/.classpath
+**/.project
