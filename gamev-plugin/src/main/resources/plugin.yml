@@ -1,6 +1,6 @@
 name: Gamev
 description: oi
-version: 0.1rc2
+version: @application.version@
 author: rodoviajw#1888
 main: rodovia.gamev.plugin.GamevPlugin
 

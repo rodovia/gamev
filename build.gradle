@@ -11,14 +11,24 @@ task allJar(type: Jar, dependsOn: subprojects.jar) {
     }
 }
 
-project.ext.version = '0.1.0-rc1'
+project.version = '0.1.0-rc2'
 
-subprojects {
+subprojects.collect { project ->
 	apply plugin: 'java'
+
 	sourceCompatibility = JavaVersion.VERSION_1_8
 	targetCompatibility = JavaVersion.VERSION_1_8
+        jar.archiveFileName = "${project.name}.jar"
 
-	
+        project.version = project.parent.version
 	project.ext.minecraftVersion = '1.12.2'
-	
+}
+
+project(":gamev-plugin") {
+	println "Compiling Gamev ${project.version}"
+        jar.archiveFileName = "${project.name}.jar"
+} 
+
+project(":gamev-api") {
+        jar.archiveFileName = "${project.name}.jar"
 }
