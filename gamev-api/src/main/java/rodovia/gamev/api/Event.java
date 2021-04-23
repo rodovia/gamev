@@ -1,8 +1,14 @@
 package rodovia.gamev.api;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import rodovia.gamev.api.setting.OptionManager;
@@ -15,10 +21,15 @@ public class Event implements MinigameEvent {
 	private Vector3f startCoordinates, endCoordinates;
 	private String name;
 	private OptionManager optManager;
+	private Map<String, Player> players;
+	private Set<Player> winners;
+	private int duration = 120;
 
 	public Event(Plugin plg) {
 		plugin = plg;
 		optManager = OptionManager.empty();
+		players = new HashMap<>();
+		winners = new HashSet<>();
 	}
 	
 	@Override
@@ -75,6 +86,51 @@ public class Event implements MinigameEvent {
 	@Override
 	public Optional<Vector3f> getEndCoordinates() {
 		return Optional.ofNullable(this.endCoordinates);
+	}
+
+	@Override
+	public Collection<Player> getPlayers() {
+		return players.values();
+	}
+
+	@Override
+	public Player addPlayer(Player player) {
+		if (!players.containsValue(player)) {
+			Player pl = players.put(player.getDisplayName(), player);
+			return pl;
+		}
+		return null;
+	}
+
+	@Override
+	public Player removePlayer(Player player) {
+		return players.remove(player.getName());
+	}
+
+	@Override
+	public int getDuration() {
+		
+		return duration;
+	}
+
+	@Override
+	public void setDuration(int duration) {
+		this.duration = duration;
+		
+	}
+
+	@Override
+	public void addWinner(Player player) {
+		winners.add(player);
+	}
+
+	@Override
+	public void removeWinner(Player player) {
+		winners.remove(player);
+	}
+	
+	public Set<Player> getWinners() {
+		return winners;
 	}
 
 }

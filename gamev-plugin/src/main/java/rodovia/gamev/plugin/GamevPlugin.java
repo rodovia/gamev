@@ -16,6 +16,7 @@ public class GamevPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		events = new HashMap<>();
+		getServer().getPluginManager().registerEvents(new EventListener(this), this);
 		getCommand("gameraevento").setExecutor(new GameraEventCommand(this));
 	}
 	

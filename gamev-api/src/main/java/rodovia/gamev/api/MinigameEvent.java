@@ -1,8 +1,11 @@
 package rodovia.gamev.api;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 
 import rodovia.gamev.api.setting.OptionManager;
 import rodovia.gamev.api.util.Vector3f;
@@ -15,7 +18,7 @@ import rodovia.gamev.api.util.Vector3f;
 public interface MinigameEvent {
 	
 	/**
-	 * <p>Recebe o gerenciador de opções.</p>
+,,k,k,,,,,k	 * <p>Recebe o gerenciador de opções.</p>
 	 * A implementação padrão joga um {@link java.lang.UnsupportedOperationException}.
 	 * @throws UnsupportedOperationException a classe atual não suporta configurações. 
 	 */
@@ -34,6 +37,15 @@ public interface MinigameEvent {
 	 * @see MinigameEvent#getName()
 	 */
 	void withName(String name);
+	
+	Collection<Player> getPlayers();
+	
+	Player addPlayer(Player player);
+	Player removePlayer(Player player);
+	
+	void addWinner(Player player);
+	void removeWinner(Player player);
+	Set<Player> getWinners();
 	
 	/**
 	 * Recebe o nome o evento, pode ser <code>null</code>
@@ -89,4 +101,7 @@ public interface MinigameEvent {
 	void setEndCoordinates(Vector3f coords); 
 	Optional<Vector3f> getStartCoordinates();
 	Optional<Vector3f> getEndCoordinates();
+	
+	int getDuration();
+	void setDuration(int duration);
 }
