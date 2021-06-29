@@ -19,6 +19,7 @@ import rodovia.gamev.api.MinigameEvent;
 import rodovia.gamev.api.setting.OptionManager;
 import rodovia.gamev.api.util.Vector3f;
 import rodovia.gamev.plugin.GamevPlugin;
+import rodovia.gamev.plugin.util.MinigameUtils;
 import rodovia.gamev.plugin.util.StringUtils;
 
 public class GameraEventCommand implements CommandExecutor {
@@ -90,7 +91,7 @@ public class GameraEventCommand implements CommandExecutor {
 		
 		MinigameEvent event = attemptToFetchEvent(plugin.getEvent(args[1]));
 		if (event == null) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, o evento '" + args[1] + "' não existe.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, o evento '" + args[1] + "' nï¿½o existe.");
 			return true;
 		}
 		
@@ -104,11 +105,11 @@ public class GameraEventCommand implements CommandExecutor {
 			vec = opvec.get();
 		} catch (NoSuchElementException err) {
 			Bukkit.broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + 
-					"O evento não possui um bloco inicial. Encerrando o evento.");
+					"O evento nÃ£o possui um bloco inicial!");
 			return true;
 		}
 		Player lastPlayer = null;
-		Bukkit.broadcastMessage(ChatColor.GREEN + "O evento começou!");
+		Bukkit.broadcastMessage(ChatColor.GREEN + "O evento comeÃ§ou!");
 		for (Player ply : event.getPlayers()) {
 			ply.teleport(vec.asLocation(ply.getWorld()));
 			ply.setGameMode(GameMode.ADVENTURE);
@@ -128,8 +129,8 @@ public class GameraEventCommand implements CommandExecutor {
 			if (duration == null) 
 				return 120;
 		} catch (ClassCastException err) {
-			String message = "AVISO: a opção 'duration' não possui o tipo esperado (um número).\n"
-					+ "Ignorando e usando o valor padrão (120)";
+			String message = "AVISO: a opÃ§Ã£o 'duration' nÃ£o possui o tipo esperado (um nÃºmero).\n"
+					+ "Ignorando e usando o valor padrï¿½o (120)";
 			duration = 120;
 			Bukkit.broadcastMessage(ChatColor.YELLOW + message);
 		}
@@ -140,7 +141,7 @@ public class GameraEventCommand implements CommandExecutor {
 	private boolean setStartBlock(Player player, String[] args) {
 		MinigameEvent event = attemptToFetchEvent(plugin.getEvent(args[1]));
 		if (event == null) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, o evento '" + args[1] + "' não existe.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, o evento '" + args[1] + "' nï¿½o existe.");
 			return true;
 		}
 		Location loc = player.getLocation();
@@ -149,7 +150,7 @@ public class GameraEventCommand implements CommandExecutor {
 									block.getY(), 
 									block.getZ());
 		event.setStartCoordinates(vec);
-		String formatted = String.format("As coordenadas %s %s %s foram definidas como a posição inicial.", 
+		String formatted = String.format("As coordenadas %s %s %s foram definidas como a posiï¿½ï¿½o inicial.", 
 										block.getX(), 
 										block.getY(), 
 										block.getZ());
@@ -160,7 +161,7 @@ public class GameraEventCommand implements CommandExecutor {
 	private boolean setEndBlock(Player player, String[] args) {
 		MinigameEvent event = attemptToFetchEvent(plugin.getEvent(args[1]));
 		if (event == null) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, o evento '" + args[1] + "' não existe.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, o evento '" + args[1] + "' nï¿½o existe.");
 			return true;
 		}
 		Location loc = player.getLocation();
@@ -169,7 +170,7 @@ public class GameraEventCommand implements CommandExecutor {
 									block.getY(), 
 									block.getZ());
 		event.setEndCoordinates(vec);
-		String formatted = String.format("As coordenadas %s %s %s foram definidas como a posição final.", 
+		String formatted = String.format("As coordenadas %s %s %s foram definidas como a posiï¿½ï¿½o final.", 
 										block.getX(), 
 										block.getY(), 
 										block.getZ());
@@ -179,13 +180,13 @@ public class GameraEventCommand implements CommandExecutor {
 	
 	private boolean deleteEvent(Player player, String[] args) {
 		if (args.length <= 1) {
-			player.sendMessage(ChatColor.RED + "Você precisa informar o nome do comando à ser removido.");
+			player.sendMessage(ChatColor.RED + "Vocï¿½ precisa informar o nome do comando ï¿½ ser removido.");
 			return true;
 		}
 		Optional<MinigameEvent> evnt = plugin.getEvent(args[1]);
 		MinigameEvent event = attemptToFetchEvent(evnt);
 		if (event == null) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, O evento '" + args[1] + "' não existe.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, O evento '" + args[1] + "' nï¿½o existe.");
 			return true;
 		}
 		
@@ -198,11 +199,11 @@ public class GameraEventCommand implements CommandExecutor {
 	private boolean joinEvent(Player player, String[] args) {
 		MinigameEvent event = attemptToFetchEvent(plugin.getEvent(args[1]));
 		if (event == null) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, o evento '" + args[1] + "' não existe.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, o evento '" + args[1] + "' nï¿½o existe.");
 			return true;
 		}
 		if (!canJoin(event)) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, o evento está lotado.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, o evento estï¿½ lotado.");
 			return true;
 		}
 				
@@ -210,11 +211,11 @@ public class GameraEventCommand implements CommandExecutor {
 		
 		
 		if (pl == null) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, você já está no evento.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, vocï¿½ jï¿½ estï¿½ no evento.");
 			return true;
 		}
 		
-		player.sendMessage(ChatColor.GREEN + "Você entrou para o evento " + args[0]);
+		player.sendMessage(ChatColor.GREEN + "Vocï¿½ entrou para o evento " + args[0]);
 		return true;
 	}
 	
@@ -227,7 +228,7 @@ public class GameraEventCommand implements CommandExecutor {
 			}
 			return event.getPlayers().size() < in.intValue();
 		} catch (ClassCastException err) {
-			String message = "AVISO: a opção 'max-members' não possui o tipo esperado (um número). Ignorando a opção.\n" + 
+			String message = "AVISO: a opï¿½ï¿½o 'max-members' nï¿½o possui o tipo esperado (um nï¿½mero). Ignorando a opï¿½ï¿½o.\n" + 
 																	err.getLocalizedMessage();
 			Bukkit.broadcastMessage(ChatColor.YELLOW + message);
 			return true;
@@ -238,7 +239,7 @@ public class GameraEventCommand implements CommandExecutor {
 		Optional<MinigameEvent> event = plugin.getEvent(args[1]);
 		MinigameEvent minigame = attemptToFetchEvent(event);
 		if (minigame == null) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, O evento '" + args[1] + "' não existe.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, O evento '" + args[1] + "' nï¿½o existe.");
 			return true;
 		}
 		
@@ -248,7 +249,7 @@ public class GameraEventCommand implements CommandExecutor {
 			value = Integer.valueOf(args[3]);
 		
 		manager.put(args[2], value);
-		String formatted = String.format("A configuração '%s' do evento %s agora tem o valor %s",
+		String formatted = String.format("A configuraï¿½ï¿½o '%s' do evento %s agora tem o valor %s",
 					args[2], args[1], args[3]);
 		player.sendMessage(ChatColor.GREEN + formatted);
 		return true;
@@ -257,30 +258,22 @@ public class GameraEventCommand implements CommandExecutor {
 	private boolean leaveEvent(Player player, String[] args) {
 		MinigameEvent event = attemptToFetchEvent(plugin.getEvent(args[0]));
 		if (event == null) {
-			player.sendMessage(ChatColor.RED + "O evento '" + args[0] + "' não existe.");
+			player.sendMessage(ChatColor.RED + "O evento '" + args[0] + "' nï¿½o existe.");
 			return true;
 		}
 		
 		if (!event.getPlayers().contains(player)) {
-			player.sendMessage(ChatColor.RED + "Nada mudou, você não está participando do evento.");
+			player.sendMessage(ChatColor.RED + "Nada mudou, vocï¿½ nï¿½o estï¿½ participando do evento.");
 			return true;
 		}
 		
 		event.removePlayer(player);
-		player.sendMessage(ChatColor.GREEN + "Você saiu do evento '" + args[0] + "'.");
+		player.sendMessage(ChatColor.GREEN + "Vocï¿½ saiu do evento '" + args[0] + "'.");
 		return true;
 	}
 	
 	private MinigameEvent attemptToFetchEvent(Optional<MinigameEvent> ev)  {
-		MinigameEvent event;
-		try {
-			event = ev.get();
-			return event;
-		}
-		catch (NoSuchElementException err) {
-			return null;
-		}
-		
+		return MinigameUtils.attemptToFetchEvent(ev);
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import rodovia.gamev.api.MinigameEvent;
+import rodovia.gamev.plugin.commands.CheckpointCommand;
 import rodovia.gamev.plugin.commands.GameraEventCommand;
 
 public class GamevPlugin extends JavaPlugin {
@@ -18,6 +19,7 @@ public class GamevPlugin extends JavaPlugin {
 		events = new HashMap<>();
 		getServer().getPluginManager().registerEvents(new EventListener(this), this);
 		getCommand("gameraevento").setExecutor(new GameraEventCommand(this));
+		getCommand("gcheckpoint").setExecutor(new CheckpointCommand(this));
 	}
 	
 	@Override

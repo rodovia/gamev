@@ -1,6 +1,6 @@
 name: Gamev
 description: oi
-version: @application.version@
+version: 0.1.0
 author: rodoviajw#1888
 main: rodovia.gamev.plugin.GamevPlugin
 
@@ -8,3 +8,7 @@ commands:
     gameraevento:
         aliases: [gev, gamera]
         usage: /<command> [create]
+    gcheckpoint:
+        aliases: [checkpoint, gcheckp]
+        usage: /<command> [set <player> <evento> <id do checkpoint>]
+

@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 
 import rodovia.gamev.api.setting.OptionManager;
 import rodovia.gamev.api.util.Vector3f;
+import rodovia.gamev.api.util.checkpoint.CheckpointManager;
 
 public class Event implements MinigameEvent {
 
@@ -24,12 +25,14 @@ public class Event implements MinigameEvent {
 	private Map<String, Player> players;
 	private Set<Player> winners;
 	private int duration = 120;
+	private CheckpointManager checkpman;
 
 	public Event(Plugin plg) {
 		plugin = plg;
 		optManager = OptionManager.empty();
 		players = new HashMap<>();
 		winners = new HashSet<>();
+		checkpman = new CheckpointManager();
 	}
 	
 	@Override
@@ -54,7 +57,7 @@ public class Event implements MinigameEvent {
 	@Override
 	public void end() throws IllegalStateException {
 		if (!started)
-			throw new IllegalStateException("O evento não iniciou ou essa função foi chamada mais de uma vez.");
+			throw new IllegalStateException("O evento nï¿½o iniciou ou essa funï¿½ï¿½o foi chamada mais de uma vez.");
 		this.started = false;
 	}
 
@@ -132,5 +135,10 @@ public class Event implements MinigameEvent {
 	public Set<Player> getWinners() {
 		return winners;
 	}
-
+	
+	@Override
+	public CheckpointManager getCheckpointManager() {
+		return checkpman;
+	}
+	
 }

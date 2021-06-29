@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import rodovia.gamev.api.setting.OptionManager;
 import rodovia.gamev.api.util.Vector3f;
+import rodovia.gamev.api.util.checkpoint.CheckpointManager;
 
 /**
  * Representa um evento de minigames.
@@ -18,21 +19,21 @@ import rodovia.gamev.api.util.Vector3f;
 public interface MinigameEvent {
 	
 	/**
-,,k,k,,,,,k	 * <p>Recebe o gerenciador de opções.</p>
-	 * A implementação padrão joga um {@link java.lang.UnsupportedOperationException}.
-	 * @throws UnsupportedOperationException a classe atual não suporta configurações. 
+     <p>Recebe o gerenciador de opï¿½ï¿½es.</p>
+	 * A implementaï¿½ï¿½o padrï¿½o joga um {@link java.lang.UnsupportedOperationException}.
+	 * @throws UnsupportedOperationException a implementaÃ§Ã£o atual nï¿½o suporta configuraï¿½ï¿½es. 
 	 */
 	default OptionManager getOptionManager() {
-		throw new UnsupportedOperationException("Current event doesn't support options.");
+		throw new UnsupportedOperationException("Current impl doesn't support options.");
 	}
 	
 	/**
-	 * Inicia um evento. Normalmente essa função não deve ser chamada mais de uma vez.
+	 * Inicia um evento. Normalmente essa funï¿½ï¿½o nï¿½o deve ser chamada mais de uma vez.
 	 */
 	void start();
 	
 	/**
-	 * Define o nome do evento, útil para reconhecer ele.
+	 * Define o nome do evento, ï¿½til para reconhecer ele.
 	 * @param name o nome do evento
 	 * @see MinigameEvent#getName()
 	 */
@@ -56,45 +57,45 @@ public interface MinigameEvent {
 	/**
 	 * Finaliza um evento.
 	 * 
-	 * @throws IllegalStateException Quando o evento não iniciou ou já finalizou e houve uma chamada subsequente
+	 * @throws IllegalStateException Quando o evento nï¿½o iniciou ou jï¿½ finalizou e houve uma chamada subsequente
 	 */
 	void end() throws IllegalStateException;
 	
 	/**
-	 * Verifica se o evento já começou.
-	 * @return retorna "true", se já começou, se não, "false".
+	 * Verifica se o evento jï¿½ comeï¿½ou.
+	 * @return retorna "true", se jï¿½ comeï¿½ou, se nï¿½o, "false".
 	 */
 	boolean hasStarted();
 	
 	/**
 	 * O servidor associado a esse evento.
-	 * @return uma instância de {@link org.bukkit.Server}
+	 * @return uma instï¿½ncia de {@link org.bukkit.Server}
 	 */
 	Server getServer();
 
 	/**
-	 * <p><strong style="color: yellow;">NOTA</strong>: não confundir com a Vector3f do JOML.</p>
+	 * <p><strong style="color: yellow;">NOTA</strong>: nï¿½o confundir com a Vector3f do JOML.</p>
 	 * 
-	 * Define a coordenada inicial dos jogadores, no começo do evento.
+	 * Define a coordenada inicial dos jogadores, no comeï¿½o do evento.
 	 * 
-	 * <p>A coordenada inicial é a posição para onde os jogadores serão
-	 * teletransportados no começo do partida. Caso necessário, muda a 
+	 * <p>A coordenada inicial ï¿½ a posiï¿½ï¿½o para onde os jogadores serï¿½o
+	 * teletransportados no comeï¿½o do partida. Caso necessï¿½rio, muda a 
 	 * regra de jogo <i>maxEntityCramming</i></p>
 	 * 
-	 * @param coords uma instância de {@link rodovia.gamev.api.util.Vector3f}
+	 * @param coords uma instï¿½ncia de {@link rodovia.gamev.api.util.Vector3f}
 	 * 
 	 * @see {@link MinigameEvent#getEndCoordinates()}
 	 */
 	void setStartCoordinates(Vector3f coords);
 	
 	/**
-	 * <p><strong style="color: yellow;">NOTA</strong>: não confundir com a Vector3f do JOML.</p>
+	 * <p><strong style="color: yellow;">NOTA</strong>: nÃ£o confundir com a Vector3f do JOML.</p>
 	 * 
 	 * Define a coordenada final dos jogadores.
 	 * 
-	 * <p>A coordenada final é o bloco onde os jogadores vão ficar no final da partida,
+	 * <p>A coordenada final Ã© o bloco onde os jogadores vÃ£o ficar no final da partida,
 	 * para serem considerados <i>ganhadores</i></p>.
-	 * @param coords uma instância de {@link rodovia.gamev.api.util.Vector3f}
+	 * @param coords uma instÃ¢ncia de {@link rodovia.gamev.api.util.Vector3f}
 	 * 
 	 * @see {@link MinigameEvent#getStartCoordinates()}
 	 */
@@ -104,4 +105,8 @@ public interface MinigameEvent {
 	
 	int getDuration();
 	void setDuration(int duration);
+	
+	default CheckpointManager getCheckpointManager() {
+		throw new UnsupportedOperationException("The current implementation does not support checkpoints");
+	}
 }
