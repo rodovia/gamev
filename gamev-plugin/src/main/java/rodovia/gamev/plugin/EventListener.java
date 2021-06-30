@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import net.md_5.bungee.api.ChatColor;
 import rodovia.gamev.api.MinigameEvent;
 import rodovia.gamev.api.util.Vector3f;
+import rodovia.gamev.plugin.event.PlayerWinEvent;
 import rodovia.gamev.plugin.util.PlayerUtils;
 
 public class EventListener implements Listener {
@@ -44,36 +45,12 @@ public class EventListener implements Listener {
 				
 		if (blockVec.equals(vec.get())) {
 			if (!evt.getWinners().contains(event.getPlayer())) {
-				spawnFirework(event.getPlayer(), loc);
-				String message = ChatColor.YELLOW + "%s" + ChatColor.GREEN + " chegou até o final! [%sº lugar]";
-				
-				Bukkit.broadcastMessage(String.format(message, 
-						event.getPlayer().getName(), evt.getWinners().size() + 1));
 				evt.addWinner(event.getPlayer());
 				
+				PlayerWinEvent vv = new PlayerWinEvent(event.getPlayer(), evt);
+				Bukkit.getPluginManager().callEvent(vv);
 			}
 		}
-	}
-	
-	private void spawnFirework(Player player, Location loc) {
-		Location oc = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
-		oc.setY(oc.getBlockY() + 10);
-		
-		Firework fw = (Firework) player.getWorld().spawnEntity(oc, EntityType.FIREWORK);
-		FireworkMeta meta = fw.getFireworkMeta();
-		
-		meta.setPower(4);
-		
-		FireworkEffect eff = FireworkEffect.builder().
-				flicker(true)
-				.withColor(Color.LIME, Color.GREEN)
-				.trail(true)
-				.withFade(Color.RED)
-				.build();
-		
-		meta.addEffect(eff);
-		fw.setFireworkMeta(meta);
-		fw.detonate();
 	}
 
 	@EventHandler
@@ -83,6 +60,8 @@ public class EventListener implements Listener {
 			return;
 		
 		evt.removePlayer(event.getPlayer());
+		String content = ChatColor.RED + "%s" + ChatColor.GRAY + "saiu do evento...";
+		Bukkit.broadcastMessage(String.format(content, event.getPlayer().getName()));
 	}
 	
 	@EventHandler
@@ -92,9 +71,7 @@ public class EventListener implements Listener {
 			return;
 		}
 		
+		event.setKeepInventory(true);
 		event.setDeathMessage(ChatColor.YELLOW + event.getEntity().getDisplayName() + ChatColor.RED + " morreu");
 	}
-	
-	
-	
 }

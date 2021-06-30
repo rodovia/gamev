@@ -18,6 +18,8 @@ public class GamevPlugin extends JavaPlugin {
 	public void onEnable() {
 		events = new HashMap<>();
 		getServer().getPluginManager().registerEvents(new EventListener(this), this);
+		getServer().getPluginManager().registerEvents(new CustomListener(this), this);
+		
 		getCommand("gameraevento").setExecutor(new GameraEventCommand(this));
 		getCommand("gcheckpoint").setExecutor(new CheckpointCommand(this));
 	}

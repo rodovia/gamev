@@ -7,12 +7,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import rodovia.gamev.api.Event;
 import rodovia.gamev.api.MinigameEvent;
@@ -113,6 +117,18 @@ public class GameraEventCommand implements CommandExecutor {
 		for (Player ply : event.getPlayers()) {
 			ply.teleport(vec.asLocation(ply.getWorld()));
 			ply.setGameMode(GameMode.ADVENTURE);
+			
+			ply.getInventory().clear();
+			
+			ItemStack stack = new ItemStack(Material.TOTEM);
+			stack.addEnchantment(Enchantment.DURABILITY, 5);
+			
+			ItemMeta meta = stack.getItemMeta();
+			meta.setDisplayName(ChatColor.RED + "Último checkpoint");
+			stack.setItemMeta(meta);
+			
+			ply.getInventory().addItem(stack);
+			
 			lastPlayer = ply;
 		}
 		
@@ -130,7 +146,7 @@ public class GameraEventCommand implements CommandExecutor {
 				return 120;
 		} catch (ClassCastException err) {
 			String message = "AVISO: a opção 'duration' não possui o tipo esperado (um número).\n"
-					+ "Ignorando e usando o valor padr�o (120)";
+					+ "Ignorando e usando o valor padrão (120)";
 			duration = 120;
 			Bukkit.broadcastMessage(ChatColor.YELLOW + message);
 		}
@@ -228,7 +244,7 @@ public class GameraEventCommand implements CommandExecutor {
 			}
 			return event.getPlayers().size() < in.intValue();
 		} catch (ClassCastException err) {
-			String message = "AVISO: a op��o 'max-members' n�o possui o tipo esperado (um n�mero). Ignorando a op��o.\n" + 
+			String message = "AVISO: a opção 'max-members' não possui o tipo esperado (um número). Ignorando a opção.\n" + 
 																	err.getLocalizedMessage();
 			Bukkit.broadcastMessage(ChatColor.YELLOW + message);
 			return true;
@@ -249,7 +265,7 @@ public class GameraEventCommand implements CommandExecutor {
 			value = Integer.valueOf(args[3]);
 		
 		manager.put(args[2], value);
-		String formatted = String.format("A configura��o '%s' do evento %s agora tem o valor %s",
+		String formatted = String.format("A configuração '%s' do evento %s agora tem o valor %s",
 					args[2], args[1], args[3]);
 		player.sendMessage(ChatColor.GREEN + formatted);
 		return true;
